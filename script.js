@@ -63,3 +63,5 @@ function rect(width, height, color, x, y) {
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 }
+
+startGame()
