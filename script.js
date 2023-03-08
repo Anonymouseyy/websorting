@@ -67,4 +67,4 @@ function rect(width, height, color, x, y) {
     }
 }
 
-startGame()
+start()
