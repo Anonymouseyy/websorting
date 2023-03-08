@@ -1,6 +1,20 @@
 let lst = [];
 let rects = [];
 
+
+var sortingArea = {
+    canvas : document.getElementById("sorting"),
+    start : function() {
+        this.canvas.width = canvas.clientWidth;
+        this.canvas.height = canvas.clientHeight;
+        this.context = this.canvas.getContext("2d");
+    },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
+
+
 function start() {
     console.log("starting");
     sortingArea.start();
@@ -39,19 +53,6 @@ function generateList(len, maxNum) {
     }
 
     return Array.from(set);
-}
-
-
-var sortingArea = {
-    canvas : document.getElementById("sorting"),
-    start : function() {
-        this.canvas.width = canvas.clientWidth;
-        this.canvas.height = canvas.clientHeight;
-        this.context = this.canvas.getContext("2d");
-    },
-    clear : function() {
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
 }
 
 
