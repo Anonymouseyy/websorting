@@ -1,10 +1,13 @@
 let lst = [];
 let rects = [];
 
-function startGame() {
+function start() {
+    console.log("starting");
     sortingArea.start();
     lst = generateList(sortingArea.width, sortingArea.height);
+    console.log(lst);
     rects = genRects(lst);
+    updateRects(rects);
 }
 
 
