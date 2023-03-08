@@ -1,15 +1,37 @@
 let lst = [];
+let rects = [];
 
 function startGame() {
     sortingArea.start();
+    lst = generateList(sortingArea.width, sortingArea.height);
+    rects = genRects(lst);
 }
 
 
-function generateList(maxLen, maxNum) {
+function genRects(arr) {
+    rectObjs = [];
+    arrLen = arr.length;
+    rectWidth = sortingArea.width/arrLen;
+
+    for (var i = 0; i < arr.length; i++) {
+        rectObj = rect(rectWidth, arr[i], "black", i*rectWidth, sortingArea.height-arr[i]);
+        rectObjs.push(rectObj);
+    }
+
+    return rectObjs;
+}
+
+
+function updateRects(rects) {
+    rects.foreach(function (rect) {rect.update()});
+}
+
+
+function generateList(len, maxNum) {
     var set = new Set();
     var i = 0;
 
-    while (i < maxLen) {
+    while (i < len) {
         set.add((Math.random()*maxNum)+1);
     }
 
