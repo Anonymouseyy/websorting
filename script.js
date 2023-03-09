@@ -1,12 +1,10 @@
-let lst = [];
+let numlst = [];
 let rects = [];
 
 
 var sortingArea = {
     canvas : document.getElementById("sorting"),
     start : function() {
-        this.canvas.width = canvas.clientWidth;
-        this.canvas.height = canvas.clientHeight;
         this.context = this.canvas.getContext("2d");
     },
     clear : function() {
@@ -16,11 +14,10 @@ var sortingArea = {
 
 
 function start() {
-    console.log("starting");
     sortingArea.start();
-    lst = generateList(sortingArea.width, sortingArea.height);
-    console.log(lst);
-    rects = genRects(lst);
+    numlst = generateList(Math.floor(sortingArea.canvas.width), sortingArea.canvas.height);
+    rects = genRects(numlst);
+    console.log(sortingArea.canvas.width);
     updateRects(rects);
 }
 
@@ -28,10 +25,10 @@ function start() {
 function genRects(arr) {
     rectObjs = [];
     arrLen = arr.length;
-    rectWidth = sortingArea.width/arrLen;
+    rectWidth = sortingArea.canvas.width/arrLen;
 
     for (var i = 0; i < arr.length; i++) {
-        rectObj = rect(rectWidth, arr[i], "black", i*rectWidth, sortingArea.height-arr[i]);
+        rectObj = new rect(rectWidth, arr[i], "black", i*rectWidth, sortingArea.canvas.height-arr[i]);
         rectObjs.push(rectObj);
     }
 
@@ -40,19 +37,12 @@ function genRects(arr) {
 
 
 function updateRects(rects) {
-    rects.foreach(function (rect) {rect.update()});
+    rects.forEach(rect => rect.update());
 }
 
 
 function generateList(len, maxNum) {
-    var set = new Set();
-    var i = 0;
-
-    while (i < len) {
-        set.add((Math.random()*maxNum)+1);
-    }
-
-    return Array.from(set);
+    return Array.from({length: len}, () => Math.floor(Math.random() * 40));
 }
 
 
