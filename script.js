@@ -56,7 +56,7 @@ function updateRects(rects) {
 
 
 function generateList(len) {
-    return Array.from({length: len}, () => Math.floor(Math.random()));
+    return Array.from({length: len}, () => Math.random());
 }
 
 
