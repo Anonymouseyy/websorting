@@ -30,7 +30,6 @@ function start() {
 
 function updateCanvas() {
     sortingArea.updateSize()
-    numlst = generateList(Math.floor(sortingArea.canvas.width/2), sortingArea.canvas.height);
     rects = genRects(numlst);
     updateRects(rects);
 }
