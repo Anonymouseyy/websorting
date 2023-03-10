@@ -17,7 +17,7 @@ var sortingArea = {
 
 function start() {
     sortingArea.start();
-    numlst = generateList(Math.floor(sortingArea.canvas.width), sortingArea.canvas.height);
+    numlst = generateList(Math.floor(sortingArea.canvas.width/2), sortingArea.canvas.height);
     rects = genRects(numlst);
     console.log(sortingArea.canvas.height);
     updateRects(rects);
