@@ -5,8 +5,8 @@ let rects = [];
 var sortingArea = {
     canvas : document.getElementById("sorting"),
     start : function() {
-        this.canvas.width = document.documentElement.clientWidth * 0.8;
-        this.canvas.height = document.documentElement.clientHeight * 0.9;
+        this.canvas.width = document.documentElement.clientWidth * 0.9;
+        this.canvas.height = document.documentElement.clientHeight * 0.8;
         this.context = this.canvas.getContext("2d");
     },
     clear : function() {
