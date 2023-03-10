@@ -4,6 +4,13 @@ let rects = [];
 
 $("#length").on("input", function() {
     var length = $("#length").val();
+
+    if (length < 1) {
+        length = 1
+    } else if (length > 20000) {
+        length = 20000
+    }   
+    
     numlst = generateList(length);
 });
 

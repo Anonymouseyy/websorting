@@ -6,6 +6,21 @@ h1 {
 }
 
 canvas {
-    margin: 25px auto 1% 5%;
+    margin: 2% auto 1% 5%;
     border: 1px solid black;
 }
+
+.top-bar {
+    white-space: nowrap;
+}
+
+.bar-item {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.right {
+    position: absolute;
+    right: 5%;
+    margin-top: 2%;
+  }
