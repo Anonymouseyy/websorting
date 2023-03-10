@@ -19,7 +19,7 @@ function start() {
     sortingArea.start();
     numlst = generateList(Math.floor(sortingArea.canvas.width), sortingArea.canvas.height);
     rects = genRects(numlst);
-    console.log(sortingArea.canvas.width);
+    console.log(sortingArea.canvas.height);
     updateRects(rects);
 }
 
@@ -44,7 +44,7 @@ function updateRects(rects) {
 
 
 function generateList(len, maxNum) {
-    return Array.from({length: len}, () => Math.floor(Math.random() * 40));
+    return Array.from({length: len}, () => Math.floor(Math.random() * maxNum));
 }
 
 
