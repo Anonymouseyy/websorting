@@ -8,6 +8,11 @@ var sortingArea = {
         this.canvas.width = document.documentElement.clientWidth * 0.9;
         this.canvas.height = document.documentElement.clientHeight * 0.8;
         this.context = this.canvas.getContext("2d");
+        this.interval = setInterval(updateCanvas, 20);
+    },
+    updateSize : function() {
+        this.canvas.width = document.documentElement.clientWidth * 0.9;
+        this.canvas.height = document.documentElement.clientHeight * 0.8;
     },
     clear : function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -19,7 +24,14 @@ function start() {
     sortingArea.start();
     numlst = generateList(Math.floor(sortingArea.canvas.width/2), sortingArea.canvas.height);
     rects = genRects(numlst);
-    console.log(sortingArea.canvas.height);
+    updateRects(rects);
+}
+
+
+function updateCanvas() {
+    sortingArea.updateSize()
+    numlst = generateList(Math.floor(sortingArea.canvas.width/2), sortingArea.canvas.height);
+    rects = genRects(numlst);
     updateRects(rects);
 }
 
