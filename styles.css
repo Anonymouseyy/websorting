@@ -6,8 +6,6 @@ h1 {
 }
 
 canvas {
-    width: 90%;
-    height: 85vh;
     margin: 25px 5% 0px;
     border: 1px solid black;
 }
