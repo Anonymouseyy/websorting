@@ -2,6 +2,12 @@ let numlst = [];
 let rects = [];
 
 
+$("#length").on("input", function() {
+    var length = $("#length").val();
+    numlst = generateList(length);
+});
+
+
 var sortingArea = {
     canvas : document.getElementById("sorting"),
     start : function() {
@@ -22,7 +28,7 @@ var sortingArea = {
 
 function start() {
     sortingArea.start();
-    numlst = generateList(Math.floor(sortingArea.canvas.width/2));
+    numlst = generateList(500);
     rects = genRects(numlst);
     updateRects(rects);
 }
