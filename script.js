@@ -22,7 +22,7 @@ var sortingArea = {
 
 function start() {
     sortingArea.start();
-    numlst = generateList(Math.floor(sortingArea.canvas.width/2), sortingArea.canvas.height);
+    numlst = generateList(Math.floor(sortingArea.canvas.width/2));
     rects = genRects(numlst);
     updateRects(rects);
 }
@@ -36,12 +36,13 @@ function updateCanvas() {
 
 
 function genRects(arr) {
-    rectObjs = [];
+    var rectObjs = [];
     arrLen = arr.length;
-    rectWidth = sortingArea.canvas.width/arrLen;
+    var rectWidth = sortingArea.canvas.width/arrLen;
 
     for (var i = 0; i < arr.length; i++) {
-        rectObj = new rect(rectWidth, arr[i], "black", i*rectWidth, sortingArea.canvas.height-arr[i]);
+        var rectHeight = arr[i]*sortingArea.canvas.height;
+        rectObj = new rect(rectWidth, rectHeight, "black", i*rectWidth, sortingArea.canvas.height-rectHeight);
         rectObjs.push(rectObj);
     }
 
@@ -54,8 +55,8 @@ function updateRects(rects) {
 }
 
 
-function generateList(len, maxNum) {
-    return Array.from({length: len}, () => Math.floor(Math.random() * maxNum));
+function generateList(len) {
+    return Array.from({length: len}, () => Math.floor(Math.random()));
 }
 
 
