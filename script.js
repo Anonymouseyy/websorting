@@ -1,9 +1,13 @@
 let numlst = [];
 let rects = [];
+let length = 500;
+let mode = document.cookie;
+let sun = "fa-sharp fa-solid fa-sun";
+let moon = "fa-sharp fa-solid fa-moon";
 
 
 $("#length").on("input", function() {
-    var length = $("#length").val();
+    length = $("#length").val();
 
     if (length < 1) {
         length = 1
@@ -12,6 +16,28 @@ $("#length").on("input", function() {
     }   
     
     numlst = generateList(length);
+});
+
+
+$("#generate").on("click", function() {
+    numlst = generateList(length);
+});
+
+
+$("#dark-light").on("click", function() {
+    var element = document.body;
+    element.classList.toggle("dark-mode");
+    if (mode == "light") {
+        mode = "dark";
+        document.cookie = mode;
+        document.getElementById("sorting").style.borderColor = "white";
+        document.getElementById("dark-light-icon").className = sun;
+    } else {
+        mode = "light";
+        document.cookie = mode;
+        document.getElementById("sorting").style.borderColor = "black";
+        document.getElementById("dark-light-icon").className = moon;
+    }
 });
 
 
@@ -35,9 +61,15 @@ var sortingArea = {
 
 function start() {
     sortingArea.start();
-    numlst = generateList(500);
+    numlst = generateList(length);
     rects = genRects(numlst);
     updateRects(rects);
+    if (mode == "dark") {
+        var element = document.body;
+        element.classList.toggle("dark-mode");
+        document.getElementById("sorting").style.borderColor = "white";
+        document.getElementById("dark-light-icon").className = sun;
+    }
 }
 
 
@@ -52,10 +84,15 @@ function genRects(arr) {
     var rectObjs = [];
     arrLen = arr.length;
     var rectWidth = sortingArea.canvas.width/arrLen;
+    var color = "black";
+
+    if (mode == "dark") {
+        color = "#e8e8e8";
+    }
 
     for (var i = 0; i < arr.length; i++) {
         var rectHeight = arr[i]*sortingArea.canvas.height;
-        rectObj = new rect(rectWidth, rectHeight, "black", i*rectWidth, sortingArea.canvas.height-rectHeight);
+        rectObj = new rect(rectWidth, rectHeight, color, i*rectWidth, sortingArea.canvas.height-rectHeight);
         rectObjs.push(rectObj);
     }
 
