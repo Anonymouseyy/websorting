@@ -5,6 +5,10 @@ let mode = document.cookie;
 let sun = "fa-sharp fa-solid fa-sun";
 let moon = "fa-sharp fa-solid fa-moon";
 
+if (!mode) {
+    mode = "light";
+}
+
 
 $("#length").on("input", function() {
     length = $("#length").val();
