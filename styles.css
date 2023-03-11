@@ -1,6 +1,4 @@
 h1 {
-    margin-top: 1%;
-    margin-left: 5%;
     font-size: 50px;
     font-weight: bold;
 }
@@ -11,16 +9,22 @@ canvas {
 }
 
 .top-bar {
+    margin-top: 1%;
     white-space: nowrap;
+    padding: 0 5%;
+    display: flex;
+    align-items: center;
 }
 
 .bar-item {
     display: inline-block;
-    vertical-align: middle;
+}
+
+.sort-controls {
+    flex-grow: 1;
+    display:flex;
 }
 
 .right {
-    position: absolute;
-    right: 5%;
-    margin-top: 2%;
-  }
+    margin-left: auto!important;
+}
