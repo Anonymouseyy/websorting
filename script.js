@@ -17,8 +17,8 @@ $("#length").on("input", function() {
         length = 1
     } else if (length > 20000) {
         length = 20000
-    }   
-    
+    }
+
     numlst = generateList(length);
 });
 
@@ -51,7 +51,7 @@ var sortingArea = {
         this.canvas.width = document.documentElement.clientWidth * 0.9;
         this.canvas.height = document.documentElement.clientHeight * 0.8;
         this.context = this.canvas.getContext("2d");
-        this.interval = setInterval(updateCanvas, 20);
+        this.interval = setInterval(function() { updateCanvas(numlst); }, 20);
     },
     updateSize : function() {
         this.canvas.width = document.documentElement.clientWidth * 0.9;
@@ -59,6 +59,9 @@ var sortingArea = {
     },
     clear : function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    },
+    startInterval : function() {
+        this.interval = setInterval(function() { updateCanvas(numlst); }, 20);
     }
 }
 
@@ -77,9 +80,10 @@ function start() {
 }
 
 
-function updateCanvas() {
-    sortingArea.updateSize()
-    rects = genRects(numlst);
+function updateCanvas(arr) {
+    console.log(arr);
+    sortingArea.updateSize();
+    rects = genRects(arr);
     updateRects(rects);
 }
 
@@ -123,6 +127,28 @@ function rect(width, height, color, x, y) {
         ctx = sortingArea.context;
         ctx.fillStyle = color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+}
+
+
+// Sorting part
+$("#sort").on("click", function() {
+    var sortType = $('#type').find(":selected").val();
+    bubbleSort();
+});
+
+
+function bubbleSort() {
+    n = numlst.length
+    var i, j;
+    for (i = 0; i < n-1; i++) {
+        for (j = 0; j < n-i-1; j++) {
+            if (numlst[j] > numlst[j+1]) {
+                var temp = numlst[j];
+                numlst[j] = numlst[j+1];
+                numlst[j+1] = temp;
+            }
+        }
     }
 }
 

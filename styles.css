@@ -31,11 +31,15 @@ canvas {
 }
 
 body {
-  background-color: white;
-  color: black;
+    background-color: white;
+    color: black;
 }
 
 .dark-mode {
-  background-color: black;
-  color: white;
+    background-color: black;
+    color: white;
+}
+
+.space {
+    margin-left: 5%;
 }

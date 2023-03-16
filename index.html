@@ -6,10 +6,10 @@
 
         <!-- http://getbootstrap.com/docs/4.5/ -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-        
+
         <!-- jQuery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-        
+
         <!-- Stylesheets -->
         <link href="styles.css" rel="stylesheet">
 
@@ -22,12 +22,18 @@
         <div class="top-bar">
             <h1 class="bar-item">Web Sorting</h1>
             <div class="sort-controls bar-item">
-                <input type="number" step="1" value=500 id="length" placeholder="List Length" class="bar-item right" min="1" max="20000">
+                <select name="type" id="type" class="bar-item right">
+                    <option value="bubble">Bubble</option>
+                    <option value="selection">Selection</option>
+                    <option value="insertion">Insertion</option>
+                </select>
+                <button type="button" id="sort" class="bar-item">Sort</button>
+                <input type="number" step="1" value=500 id="length" placeholder="List Length" class="bar-item space" min="1" max="20000">
                 <button type="button" id="generate" class="bar-item">Generate</button>
                 <button class="bar-item" id="dark-light"><i class="fa-sharp fa-solid fa-moon" id="dark-light-icon"></i></button>
             </div>
         </div>
-        
+
         <main class="main-content">
             <canvas id="sorting">
 
