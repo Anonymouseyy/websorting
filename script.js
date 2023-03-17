@@ -1,33 +1,41 @@
 let numlst = [];
 let rects = [];
+let highlightedRects = {
+    indices: [],
+    colors: [],
+    clear : function() {
+        this.indices = [];
+        this.colors = [];
+    }
+};
 let length = 500;
 let mode = document.cookie;
 let sun = "fa-sharp fa-solid fa-sun";
 let moon = "fa-sharp fa-solid fa-moon";
-
+ 
 if (!mode) {
     mode = "light";
 }
-
-
+ 
+ 
 $("#length").on("input", function() {
     length = $("#length").val();
-
+ 
     if (length < 1) {
-        length = 1
+        length = 1;
     } else if (length > 20000) {
-        length = 20000
+        length = 20000;
     }
-
+    
     numlst = generateList(length);
 });
-
-
+ 
+ 
 $("#generate").on("click", function() {
     numlst = generateList(length);
 });
-
-
+ 
+ 
 $("#dark-light").on("click", function() {
     var element = document.body;
     element.classList.toggle("dark-mode");
@@ -43,8 +51,8 @@ $("#dark-light").on("click", function() {
         document.getElementById("dark-light-icon").className = moon;
     }
 });
-
-
+ 
+// W3 Schoools https://www.w3schools.com/graphics/game_canvas.asp
 var sortingArea = {
     canvas : document.getElementById("sorting"),
     start : function() {
@@ -64,8 +72,8 @@ var sortingArea = {
         this.interval = setInterval(function() { updateCanvas(numlst); }, 20);
     }
 }
-
-
+ 
+ 
 function start() {
     sortingArea.start();
     numlst = generateList(length);
@@ -78,46 +86,48 @@ function start() {
         document.getElementById("dark-light-icon").className = sun;
     }
 }
-
-
+ 
+ 
 function updateCanvas(arr) {
-    console.log(arr);
     sortingArea.updateSize();
     rects = genRects(arr);
     updateRects(rects);
 }
-
-
+ 
+ 
 function genRects(arr) {
     var rectObjs = [];
-    arrLen = arr.length;
-    var rectWidth = sortingArea.canvas.width/arrLen;
-    var color = "black";
-
-    if (mode == "dark") {
-        color = "#e8e8e8";
-    }
-
+    var rectWidth = sortingArea.canvas.width/arr.length;
+    var color;
+ 
     for (var i = 0; i < arr.length; i++) {
+        if (highlightedRects.indices.includes(i)) {
+            color = highlightedRects.colors[highlightedRects.indices.indexOf(i)];
+        } else if (mode == "dark") {
+            color = "#e8e8e8";
+        } else {
+            var color = "black";
+        }
+        
         var rectHeight = arr[i]*sortingArea.canvas.height;
         rectObj = new rect(rectWidth, rectHeight, color, i*rectWidth, sortingArea.canvas.height-rectHeight);
         rectObjs.push(rectObj);
     }
-
+ 
     return rectObjs;
 }
-
-
+ 
+ 
 function updateRects(rects) {
     rects.forEach(rect => rect.update());
 }
-
-
+ 
+ 
 function generateList(len) {
     return Array.from({length: len}, () => Math.random());
 }
-
-
+ 
+ 
 function rect(width, height, color, x, y) {
     this.width = width;
     this.height = height;
@@ -134,22 +144,61 @@ function rect(width, height, color, x, y) {
 // Sorting part
 $("#sort").on("click", function() {
     var sortType = $('#type').find(":selected").val();
-    bubbleSort();
+    var speed = $("#speed").val();
+
+    if (speed < 1) {
+        speed = 1;
+    } else if (speed > 1000) {
+        speed = 1000;
+    }
+    
+    bubbleSort(1001-speed);
 });
 
 
-function bubbleSort() {
+async function ending(delay=20) {
+    highlightedRects.clear();
+    for (var i = 0; i < numlst.length; i++) {
+        highlightedRects.indices.push(i);
+        highlightedRects.colors.push("green");
+
+        await new Promise((resolve) =>
+            setTimeout(() => {
+                resolve();
+            }, delay)
+        );
+    }
+
+    await new Promise((resolve) =>
+        setTimeout(() => {
+            resolve();
+        }, 1000)
+    );
+    highlightedRects.clear();
+}
+
+
+async function bubbleSort(delay=100) {
     n = numlst.length
     var i, j;
     for (i = 0; i < n-1; i++) {
         for (j = 0; j < n-i-1; j++) {
+            highlightedRects.indices = [j, j+1];
+            highlightedRects.colors = ["red", "red"];
             if (numlst[j] > numlst[j+1]) {
                 var temp = numlst[j];
                 numlst[j] = numlst[j+1];
                 numlst[j+1] = temp;
             }
+            
+            await new Promise((resolve) =>
+                setTimeout(() => {
+                    resolve();
+                }, delay)
+            );
         }
     }
+    ending();
 }
-
+ 
 start()

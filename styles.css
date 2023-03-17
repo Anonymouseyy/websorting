@@ -2,12 +2,12 @@ h1 {
     font-size: 50px;
     font-weight: bold;
 }
-
+ 
 canvas {
     margin: 2% auto 1% 5%;
     border: 1px solid black;
 }
-
+ 
 .top-bar {
     margin-top: 1%;
     white-space: nowrap;
@@ -15,26 +15,26 @@ canvas {
     display: flex;
     align-items: center;
 }
-
+ 
 .bar-item {
     display: inline-block;
     margin-left: 1%;
 }
-
+ 
 .sort-controls {
     flex-grow: 1;
     display:flex;
 }
-
+ 
 .right {
     margin-left: auto!important;
 }
-
+ 
 body {
     background-color: white;
     color: black;
 }
-
+ 
 .dark-mode {
     background-color: black;
     color: white;
