@@ -182,6 +182,7 @@ async function bubbleSort(delay=100) {
     n = numlst.length
     var i, j;
     for (i = 0; i < n-1; i++) {
+        var switches = 0;
         for (j = 0; j < n-i-1; j++) {
             highlightedRects.indices = [j, j+1];
             highlightedRects.colors = ["red", "red"];
@@ -189,6 +190,7 @@ async function bubbleSort(delay=100) {
                 var temp = numlst[j];
                 numlst[j] = numlst[j+1];
                 numlst[j+1] = temp;
+                switches++;
             }
             
             await new Promise((resolve) =>
@@ -196,6 +198,9 @@ async function bubbleSort(delay=100) {
                     resolve();
                 }, delay)
             );
+        }
+        if (switches == 0) {
+            break;
         }
     }
     ending();
