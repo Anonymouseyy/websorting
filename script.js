@@ -1,5 +1,7 @@
+// Sorting list and rect display
 let numlst = [];
 let rects = [];
+// Keep track of which rects are hightlighted and what color
 let highlightedRects = {
     indices: [],
     colors: [],
@@ -8,16 +10,26 @@ let highlightedRects = {
         this.colors = [];
     }
 };
+// Length of the list
 let length = 500;
+// Light or dark mode
 let mode = document.cookie;
-let sun = "fa-sharp fa-solid fa-sun";
-let moon = "fa-sharp fa-solid fa-moon";
- 
+
 if (!mode) {
     mode = "light";
 }
- 
- 
+// Icons
+let sun = "fa-sharp fa-solid fa-sun";
+let moon = "fa-sharp fa-solid fa-moon";
+// Keep track of whether or not we are sorting
+let sorting = false;
+// Variables to track statistics of the algorithm running
+let [milliseconds,seconds,minutes,hours] = [0,0,0,0];
+let int = null;
+let movements = 0;
+let comparisons = 0;
+
+
 $("#length").on("input", function() {
     length = $("#length").val();
  
@@ -52,7 +64,7 @@ $("#dark-light").on("click", function() {
     }
 });
  
-// W3 Schoools https://www.w3schools.com/graphics/game_canvas.asp
+// W3 Schools https://www.w3schools.com/graphics/game_canvas.asp
 var sortingArea = {
     canvas : document.getElementById("sorting"),
     start : function() {
@@ -67,9 +79,6 @@ var sortingArea = {
     },
     clear : function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    },
-    startInterval : function() {
-        this.interval = setInterval(function() { updateCanvas(numlst); }, 20);
     }
 }
  
@@ -92,6 +101,13 @@ function updateCanvas(arr) {
     sortingArea.updateSize();
     rects = genRects(arr);
     updateRects(rects);
+    if (sorting) {
+        let h = hours < 10 ? "0" + hours : hours;
+        let m = minutes < 10 ? "0" + minutes : minutes;
+        let s = seconds < 10 ? "0" + seconds : seconds;
+        let ms = milliseconds < 10 ? "00" + milliseconds : milliseconds < 100 ? "0" + milliseconds : milliseconds;
+        $("#stats").text(`Run time: ${h}:${m}:${s}:${ms} Comparisons: ${comparisons} Movements: ${movements}`);
+    }
 }
  
  
@@ -140,23 +156,57 @@ function rect(width, height, color, x, y) {
     }
 }
 
+// Timer from https://foolishdeveloper.com/create-a-simple-stopwatch-using-javascript-tutorial-code/
+function displayTimer(){
+    milliseconds+=10;
+    if(milliseconds == 1000){
+        milliseconds = 0;
+        seconds++;
+        if(seconds == 60){
+            seconds = 0;
+            minutes++;
+            if(minutes == 60){
+                minutes = 0;
+                hours++;
+            }
+        }
+    }
+}
+
 
 // Sorting part
 $("#sort").on("click", function() {
     var sortType = $('#type').find(":selected").val();
     var speed = $("#speed").val();
+    $("#generate").prop('disabled', true);
+    sorting = true;
+    [milliseconds,seconds,minutes,hours] = [0,0,0,0];
+    comparisons = 0;
+    movements = 0;
 
     if (speed < 1) {
         speed = 1;
-    } else if (speed > 1000) {
-        speed = 1000;
+    } else if (speed > 100) {
+        speed = 100;
     }
-    
-    bubbleSort(1001-speed);
+
+    if(int !== null){
+        clearInterval(int);
+    }
+
+    int = setInterval(displayTimer,10);
+
+    if (sortType == "bubble") {
+        bubbleSort(101-speed);
+    }
+    if (sortType == "selection") {
+        selectionSort(101-speed);
+    }
 });
 
 
 async function ending(delay=20) {
+    clearInterval(int);
     highlightedRects.clear();
     for (var i = 0; i < numlst.length; i++) {
         highlightedRects.indices.push(i);
@@ -175,10 +225,12 @@ async function ending(delay=20) {
         }, 1000)
     );
     highlightedRects.clear();
+    $("#generate").prop('disabled', false);
+    sorting = false;
 }
 
 
-async function bubbleSort(delay=100) {
+async function bubbleSort(delay) {
     n = numlst.length
     var i, j;
     for (i = 0; i < n-1; i++) {
@@ -186,7 +238,9 @@ async function bubbleSort(delay=100) {
         for (j = 0; j < n-i-1; j++) {
             highlightedRects.indices = [j, j+1];
             highlightedRects.colors = ["red", "red"];
+            comparisons++;
             if (numlst[j] > numlst[j+1]) {
+                movements++;
                 var temp = numlst[j];
                 numlst[j] = numlst[j+1];
                 numlst[j+1] = temp;
@@ -202,6 +256,39 @@ async function bubbleSort(delay=100) {
         if (switches == 0) {
             break;
         }
+    }
+    ending();
+}
+
+
+async function selectionSort(delay) {
+    var i, j, min_idx;
+    n = numlst.length;
+
+    for (i = 0; i < n-1; i++) {
+        highlightedRects.indices = [i];
+        highlightedRects.colors = ["purple"];
+        min_idx = i;
+        for (j = i + 1; j < n; j++) {
+            highlightedRects.clear();
+            if (numlst[j] < numlst[min_idx]) {
+                comparisons ++;
+                min_idx = j;
+            }
+            highlightedRects.indices.push(j, min_idx, i);
+            highlightedRects.colors.push("red", "red", "purple");
+
+            await new Promise((resolve) =>
+                setTimeout(() => {
+                    resolve();
+                }, delay)
+            );
+        }
+
+        var temp = numlst[min_idx];
+        numlst[min_idx] = numlst[i];
+        numlst[i] = temp;
+        movements++;
     }
     ending();
 }

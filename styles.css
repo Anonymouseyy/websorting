@@ -4,7 +4,7 @@ h1 {
 }
  
 canvas {
-    margin: 2% auto 1% 5%;
+    margin: 1% auto 1% 5%;
     border: 1px solid black;
 }
  
@@ -42,4 +42,10 @@ body {
 
 .space {
     margin-left: 5%;
+}
+
+.stats {
+    display: block;
+    margin: 0 5% 0 auto;
+    text-align: right;
 }

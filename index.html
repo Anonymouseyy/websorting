@@ -28,18 +28,20 @@
                     <option value="insertion">Insertion</option>
                 </select>
                 <button type="button" id="sort" class="bar-item">Sort</button>
-                <input type="number" step=1 value=500 id="speed" placeholder="Speed" class="bar-item" min=1 max=1000>
+                <input type="number" step=1 value=100 id="speed" placeholder="Speed" class="bar-item" min=1 max=100>
+                <input type="button" value="Reset" onClick="document.location.reload(true)" class="bar-item">
                 <input type="number" step=1 value=500 id="length" placeholder="List Length" class="bar-item space" min=1 max=20000>
                 <button type="button" id="generate" class="bar-item">Generate</button>
+                <button class="bar-item" id="dark-light"><i class="fa-sharp fa-solid fa-moon" id="dark-light-icon"></i></button>
             </div>
-            <button class="bar-item" id="dark-light"><i class="fa-sharp fa-solid fa-moon" id="dark-light-icon"></i></button>
         </div>
-        
-        <main class="main-content">
-            <canvas id="sorting">
+        <div class="stats" id="stats">
+            Stats
+        </div>
+
+        <canvas id="sorting">
  
-            </canvas>
-        </main>
+        </canvas>
     </body>
     <!-- Script -->
     <script src="script.js"></script>
