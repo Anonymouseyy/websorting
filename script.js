@@ -272,11 +272,11 @@ async function selectionSort(delay) {
         for (j = i + 1; j < n; j++) {
             highlightedRects.clear();
             if (numlst[j] < numlst[min_idx]) {
-                comparisons ++;
                 min_idx = j;
             }
             highlightedRects.indices.push(j, min_idx, i);
             highlightedRects.colors.push("red", "red", "purple");
+            comparisons ++;
 
             await new Promise((resolve) =>
                 setTimeout(() => {
