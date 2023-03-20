@@ -297,7 +297,7 @@ async function selectionSort(delay) {
 }
 
 
-async function insertionsSort(delay) {
+async function insertionSort(delay) {
     n = numlst.length;
 
     for (var i = 1; i < n-1; i++) {
