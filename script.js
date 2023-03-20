@@ -202,6 +202,9 @@ $("#sort").on("click", function() {
     if (sortType == "selection") {
         selectionSort(101-speed);
     }
+    if (sortType == "insertion") {
+        insertionSort(101-speed);
+    }
 });
 
 
@@ -231,7 +234,7 @@ async function ending(delay=20) {
 
 
 async function bubbleSort(delay) {
-    n = numlst.length
+    var n = numlst.length
     var i, j;
     for (i = 0; i < n-1; i++) {
         var switches = 0;
@@ -263,7 +266,7 @@ async function bubbleSort(delay) {
 
 async function selectionSort(delay) {
     var i, j, min_idx;
-    n = numlst.length;
+    var n = numlst.length;
 
     for (i = 0; i < n-1; i++) {
         highlightedRects.indices = [i];
@@ -289,6 +292,38 @@ async function selectionSort(delay) {
         numlst[min_idx] = numlst[i];
         numlst[i] = temp;
         movements++;
+    }
+    ending();
+}
+
+
+async function insertionsSort(delay) {
+    n = numlst.length;
+
+    for (var i = 1; i < n-1; i++) {
+        var j = 1;
+        highlightedRects.indices = [i];
+        highlightedRects.colors = ["purple"];
+
+        while (j > 0 && numlst[j-1] > numlst[j]) {
+            highlightedRects.clear();
+
+            var temp = numlst[j];
+            numlst[j] = numlst[j-1];
+            numlst[j-1] = temp;
+            movements++;
+            comparions++;
+
+            highlightedRects.indices.push(j, j-1, i);
+            highlightedRects.colors.push("red", "red", "purple");
+
+            await new Promise((resolve) =>
+                setTimeout(() => {
+                    resolve();
+                }, delay)
+            );
+        }
+        comparions++;
     }
     ending();
 }
