@@ -13,14 +13,20 @@ let highlightedRects = {
 // Length of the list
 let length = 500;
 // Light or dark mode
-let mode = document.cookie;
+let mode = getCookie("mode");
+let mute = getCookie("mute");
 
 if (!mode) {
     mode = "light";
 }
+if (!mute) {
+    mute = "no";
+}
 // Icons
 let sun = "fa-sharp fa-solid fa-sun";
 let moon = "fa-sharp fa-solid fa-moon";
+let unmuted = "fa-solid fa-volume-high";
+let muted = "fa-solid fa-volume-xmark";
 // Keep track of whether or not we are sorting
 let sorting = false;
 // Variables to track statistics of the algorithm running
@@ -53,17 +59,49 @@ $("#dark-light").on("click", function() {
     element.classList.toggle("dark-mode");
     if (mode == "light") {
         mode = "dark";
-        document.cookie = mode;
+        document.cookie = `mode=${mode}, mute=${mute};`;
         document.getElementById("sorting").style.borderColor = "white";
         document.getElementById("dark-light-icon").className = sun;
     } else {
         mode = "light";
-        document.cookie = mode;
+        document.cookie = `mode=${mode}, mute=${mute};`;
         document.getElementById("sorting").style.borderColor = "black";
         document.getElementById("dark-light-icon").className = moon;
     }
 });
- 
+
+
+$("#mute").on("click", function() {
+    if (mute == "no") {
+        mute = "yes";
+        document.cookie = `mode=${mode}, mute=${mute};`;
+        document.getElementById("mute-icon").className = muted;
+    } else {
+        mute = "no";
+        document.cookie = `mode=${mode}, mute=${mute};`;
+        document.getElementById("mute-icon").className = unmuted;
+    }
+});
+
+
+// W3 schools https://www.w3schools.com/js/js_cookies.asp
+ function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(',');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+
 // W3 Schools https://www.w3schools.com/graphics/game_canvas.asp
 var sortingArea = {
     canvas : document.getElementById("sorting"),
@@ -94,6 +132,9 @@ function start() {
         document.getElementById("sorting").style.borderColor = "white";
         document.getElementById("dark-light-icon").className = sun;
     }
+    if (mute == "yes") {
+        document.getElementById("mute-icon").className = muted;
+    }
 }
  
  
@@ -119,8 +160,10 @@ function genRects(arr) {
     for (var i = 0; i < arr.length; i++) {
         if (highlightedRects.indices.includes(i)) {
             color = highlightedRects.colors[highlightedRects.indices.indexOf(i)];
-            var freq = (numlst[i]*600)+200;
-            play(freq, 10);
+            if (color != "purple" && mute == "no") {
+                var freq = (numlst[i]*200)+100;
+                playSound("sine", freq, 1)
+            }
         } else if (mode == "dark") {
             color = "#e8e8e8";
         } else {
@@ -174,19 +217,6 @@ function displayTimer() {
         }
     }
 }
-
-
-// Sound playing function from https://dev.to/gkucmierz/play-sound-in-javascript-1n95
-async function play(frequency = 300, duration = 1e3) {
-    const context = new AudioContext();
-    const gainNode = context.createGain();
-    const oscillator = context.createOscillator();
-    oscillator.frequency.value = frequency;
-    oscillator.connect(gainNode);
-    gainNode.connect(context.destination);
-    oscillator.start(0);
-    setTimeout(() => oscillator.stop(), duration);
-};
 
 
 // Sorting part
