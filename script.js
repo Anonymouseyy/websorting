@@ -119,6 +119,8 @@ function genRects(arr) {
     for (var i = 0; i < arr.length; i++) {
         if (highlightedRects.indices.includes(i)) {
             color = highlightedRects.colors[highlightedRects.indices.indexOf(i)];
+            var freq = (numlst[i]*600)+200;
+            play(freq, 10);
         } else if (mode == "dark") {
             color = "#e8e8e8";
         } else {
@@ -157,7 +159,7 @@ function rect(width, height, color, x, y) {
 }
 
 // Timer from https://foolishdeveloper.com/create-a-simple-stopwatch-using-javascript-tutorial-code/
-function displayTimer(){
+function displayTimer() {
     milliseconds+=10;
     if(milliseconds == 1000){
         milliseconds = 0;
@@ -172,6 +174,19 @@ function displayTimer(){
         }
     }
 }
+
+
+// Sound playing function from https://dev.to/gkucmierz/play-sound-in-javascript-1n95
+async function play(frequency = 300, duration = 1e3) {
+    const context = new AudioContext();
+    const gainNode = context.createGain();
+    const oscillator = context.createOscillator();
+    oscillator.frequency.value = frequency;
+    oscillator.connect(gainNode);
+    gainNode.connect(context.destination);
+    oscillator.start(0);
+    setTimeout(() => oscillator.stop(), duration);
+};
 
 
 // Sorting part
