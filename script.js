@@ -298,32 +298,34 @@ async function selectionSort(delay) {
 
 
 async function insertionSort(delay) {
-    n = numlst.length;
+    var n = numlst.length;
 
-    for (var i = 1; i < n-1; i++) {
-        var j = 1;
+    var i, key, j;
+    for (i = 1; i < n; i++) {
         highlightedRects.indices = [i];
         highlightedRects.colors = ["purple"];
+        key = numlst[i];
+        j = i - 1;
 
-        while (j > 0 && numlst[j-1] > numlst[j]) {
+        while (j >= 0 && numlst[j] > key) {
             highlightedRects.clear();
 
-            var temp = numlst[j];
-            numlst[j] = numlst[j-1];
-            numlst[j-1] = temp;
+            numlst[j + 1] = numlst[j];
+            j = j - 1;
             movements++;
-            comparions++;
 
             highlightedRects.indices.push(j, j-1, i);
             highlightedRects.colors.push("red", "red", "purple");
 
+            comparisons++;
             await new Promise((resolve) =>
                 setTimeout(() => {
                     resolve();
                 }, delay)
             );
         }
-        comparions++;
+        numlst[j + 1] = key;
+        movements++;
     }
     ending();
 }
