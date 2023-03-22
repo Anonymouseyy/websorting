@@ -259,6 +259,14 @@ $("#sort").on("click", function() {
 async function ending(delay=20) {
     clearInterval(int);
     highlightedRects.clear();
+    
+    if (numlst.length > 1000) {
+        delay = 10;
+    }
+    
+    if (numlst.length > 10000) {
+        delay = 1;
+    }
     for (var i = 0; i < numlst.length; i++) {
         highlightedRects.indices.push(i);
         highlightedRects.colors.push("green");
@@ -273,7 +281,7 @@ async function ending(delay=20) {
     await new Promise((resolve) =>
         setTimeout(() => {
             resolve();
-        }, delay)
+        }, 1000)
     );
     highlightedRects.clear();
     $("#generate").prop('disabled', false);
