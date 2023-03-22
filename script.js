@@ -250,6 +250,9 @@ $("#sort").on("click", function() {
     if (sortType == "insertion") {
         insertionSort(101-speed);
     }
+    if (sortType == "merge") {
+        mergeSort(numlst, 0, numlst.length-1, 101-speed);
+    }
 });
 
 
@@ -270,7 +273,7 @@ async function ending(delay=20) {
     await new Promise((resolve) =>
         setTimeout(() => {
             resolve();
-        }, 1000)
+        }, delay)
     );
     highlightedRects.clear();
     $("#generate").prop('disabled', false);
@@ -373,6 +376,130 @@ async function insertionSort(delay) {
         movements++;
     }
     ending();
+}
+
+
+async function merge(arr, l, m, r, delay)
+{
+    var n1 = m - l + 1;
+    var n2 = r - m;
+  
+    var L = new Array(n1); 
+    var R = new Array(n2);
+  
+    for (var i = 0; i < n1; i++) {
+        highlightedRects.clear();
+
+        L[i] = arr[l + i];
+
+        highlightedRects.indices.push(i, l, m, r);
+        highlightedRects.colors.push("red", "purple", "purple", "purple");
+
+        movements++;
+        comparisons++;
+        await new Promise((resolve) =>
+            setTimeout(() => {
+                resolve();
+            }, delay)
+        );
+    }
+    for (var j = 0; j < n2; j++) {
+        highlightedRects.clear();
+
+        R[j] = arr[m + 1 + j];
+
+        highlightedRects.indices.push(j, l, m, r);
+        highlightedRects.colors.push("red", "purple", "purple", "purple");
+
+        movements++;
+        comparisons++;
+        await new Promise((resolve) =>
+            setTimeout(() => {
+                resolve();
+            }, delay)
+        );
+    }
+
+    var i = 0;
+  
+    var j = 0;
+  
+    var k = l;
+  
+    while (i < n1 && j < n2) {
+        highlightedRects.clear();
+
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+            movements++;
+        }
+        else {
+            arr[k] = R[j];
+            j++;
+            movements++;
+        }
+
+        comparisons+=2;
+
+        highlightedRects.indices.push(i, j, k);
+        highlightedRects.colors.push("red", "red", "red");
+
+        await new Promise((resolve) =>
+            setTimeout(() => {
+                resolve();
+            }, delay)
+        );
+        k++;
+    }
+  
+    while (i < n1) {
+        highlightedRects.clear();
+        arr[k] = L[i];
+        i++;
+        k++;
+        movements++;
+        comparisons++;
+        highlightedRects.indices.push(i, k);
+        highlightedRects.colors.push("red", "red");
+        await new Promise((resolve) =>
+            setTimeout(() => {
+                resolve();
+            }, delay)
+        );
+    }
+
+    while (j < n2) {
+        highlightedRects.clear();
+        arr[k] = R[j];
+        j++;
+        k++;
+        movements++;
+        comparisons++;
+        highlightedRects.indices.push(j, k);
+        highlightedRects.colors.push("red", "red");
+        await new Promise((resolve) =>
+            setTimeout(() => {
+                resolve();
+            }, delay)
+        );
+    }
+}
+
+
+async function mergeSort(arr,l,r,delay){
+    if(l>=r){
+        return;
+    }
+    var m = l + parseInt((r-l)/2);
+    comparisons++;
+    await mergeSort(arr,l,m, delay);
+    await mergeSort(arr,m+1,r,delay);
+    await merge(arr,l,m,r, delay);
+    if (l == 0 && r == arr.length-1) {
+        ending();
+        return;
+    }
 }
  
 start()
