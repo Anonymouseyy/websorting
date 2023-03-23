@@ -260,11 +260,11 @@ async function ending(delay=20) {
     clearInterval(int);
     highlightedRects.clear();
     
-    if (numlst.length > 1000) {
+    if (numlst.length >= 1000) {
         delay = 10;
     }
     
-    if (numlst.length > 10000) {
+    if (numlst.length >= 10000) {
         delay = 1;
     }
     for (var i = 0; i < numlst.length; i++) {
