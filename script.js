@@ -1,7 +1,7 @@
 // Sorting list and rect display
 let numlst = [];
 let rects = [];
-// Keep track of which rects are hightlighted and what color
+// Keep track of which rects are highlighted and what color
 let highlightedRects = {
     indices: [],
     colors: [],
@@ -160,7 +160,7 @@ function genRects(arr) {
     for (var i = 0; i < arr.length; i++) {
         if (highlightedRects.indices.includes(i)) {
             color = highlightedRects.colors[highlightedRects.indices.indexOf(i)];
-            if (color != "purple" && mute == "no") {
+            if (color == "red" && mute == "no") {
                 var freq = (numlst[i]*200)+100;
                 playSound("sine", freq, 1)
             }
@@ -253,29 +253,34 @@ $("#sort").on("click", function() {
     if (sortType == "merge") {
         mergeSort(numlst, 0, numlst.length-1, 101-speed);
     }
+    if (sortType == "quick") {
+        quickSort(numlst, 0, numlst.length-1, 101-speed);
+    }
 });
 
 
-async function ending(delay=20) {
+async function ending(delay=10) {
     clearInterval(int);
     highlightedRects.clear();
-    
-    if (numlst.length >= 1000) {
-        delay = 10;
+
+    if (numlst.length >= 10000) {
+        return;
     }
     
-    if (numlst.length >= 10000) {
+    if (numlst.length >= 1000) {
         delay = 1;
     }
     for (var i = 0; i < numlst.length; i++) {
         highlightedRects.indices.push(i);
         highlightedRects.colors.push("green");
 
-        await new Promise((resolve) =>
-            setTimeout(() => {
-                resolve();
-            }, delay)
-        );
+        if (i%((1/delay)*50) == 0) {
+            await new Promise((resolve) =>
+                setTimeout(() => {
+                    resolve();
+                }, delay)
+            );
+        }
     }
 
     await new Promise((resolve) =>
@@ -289,6 +294,7 @@ async function ending(delay=20) {
 }
 
 
+// Sort inspirations from Geeks for Geeks
 async function bubbleSort(delay) {
     var n = numlst.length
     var i, j;
@@ -507,6 +513,48 @@ async function mergeSort(arr,l,r,delay){
     if (l == 0 && r == arr.length-1) {
         ending();
         return;
+    }
+}
+
+
+async function partition(arr, low, high, delay) {
+    let pivot = arr[high];
+    let pivot_idx = high;
+    let i = low - 1;
+
+    for (let j = low; j < high; j++) {
+        highlightedRects.clear();
+        if (arr[j] <= pivot) {
+            i++;
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+            movements++;
+        }
+
+        comparisons++;
+        highlightedRects.indices.push(i, j, pivot_idx);
+        highlightedRects.colors.push("red", "red", "purple");
+
+        await new Promise((resolve) =>
+            setTimeout(() => {
+                resolve();
+            }, delay)
+        );
+    }
+
+    [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
+    movements++;
+    return i + 1;
+}
+
+
+async function quickSort(arr, low, high, delay) {
+    if (low < high) {
+        let pi = await partition(arr, low, high, delay);
+        await quickSort(arr, low, pi - 1, delay);
+        await quickSort(arr, pi + 1, high, delay);
+    }
+    if (arr.length == length && low == 0 && high == numlst.length-1) {
+        ending();
     }
 }
  
