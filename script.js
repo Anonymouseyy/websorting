@@ -264,22 +264,25 @@ async function ending(delay=10) {
     highlightedRects.clear();
 
     if (numlst.length >= 10000) {
-        return;
-    }
-    
-    if (numlst.length >= 1000) {
-        delay = 1;
-    }
-    for (var i = 0; i < numlst.length; i++) {
+        for (var i = 0; i < numlst.length; i++) {
         highlightedRects.indices.push(i);
         highlightedRects.colors.push("green");
+        }
+    } else {
+        if (numlst.length >= 1000) {
+            delay = 1;
+        }
+        for (var i = 0; i < numlst.length; i++) {
+            highlightedRects.indices.push(i);
+            highlightedRects.colors.push("green");
 
-        if (i%((1/delay)*50) == 0) {
-            await new Promise((resolve) =>
-                setTimeout(() => {
-                    resolve();
-                }, delay)
-            );
+            if (i%((1/delay)*50) == 0) {
+                await new Promise((resolve) =>
+                    setTimeout(() => {
+                        resolve();
+                    }, delay)
+                );
+            }
         }
     }
 
