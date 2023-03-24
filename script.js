@@ -109,7 +109,7 @@ var sortingArea = {
         this.canvas.width = document.documentElement.clientWidth * 0.9;
         this.canvas.height = document.documentElement.clientHeight * 0.8;
         this.context = this.canvas.getContext("2d");
-        this.interval = setInterval(updateCanvas(), 20);
+        this.interval = setInterval(updateCanvas, 20);
     },
     updateSize : function() {
         this.canvas.width = document.documentElement.clientWidth * 0.9;
