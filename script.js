@@ -109,7 +109,7 @@ var sortingArea = {
         this.canvas.width = document.documentElement.clientWidth * 0.9;
         this.canvas.height = document.documentElement.clientHeight * 0.8;
         this.context = this.canvas.getContext("2d");
-        this.interval = setInterval(function() { updateCanvas(numlst); }, 20);
+        this.interval = setInterval(updateCanvas(), 20);
     },
     updateSize : function() {
         this.canvas.width = document.documentElement.clientWidth * 0.9;
@@ -124,7 +124,7 @@ var sortingArea = {
 function start() {
     sortingArea.start();
     numlst = generateList(length);
-    rects = genRects(numlst);
+    rects = genRects();
     updateRects(rects);
     if (mode == "dark") {
         var element = document.body;
@@ -138,9 +138,9 @@ function start() {
 }
  
  
-function updateCanvas(arr) {
+function updateCanvas() {
     sortingArea.updateSize();
-    rects = genRects(arr);
+    rects = genRects();
     updateRects(rects);
     if (sorting) {
         let h = hours < 10 ? "0" + hours : hours;
@@ -152,12 +152,12 @@ function updateCanvas(arr) {
 }
  
  
-function genRects(arr) {
+function genRects() {
     var rectObjs = [];
-    var rectWidth = sortingArea.canvas.width/arr.length;
+    var rectWidth = sortingArea.canvas.width/numlst.length;
     var color;
  
-    for (var i = 0; i < arr.length; i++) {
+    for (var i = 0; i < numlst.length; i++) {
         if (highlightedRects.indices.includes(i)) {
             color = highlightedRects.colors[highlightedRects.indices.indexOf(i)];
             if (color == "red" && mute == "no") {
@@ -170,7 +170,7 @@ function genRects(arr) {
             var color = "black";
         }
         
-        var rectHeight = arr[i]*sortingArea.canvas.height;
+        var rectHeight = numlst[i]*sortingArea.canvas.height;
         rectObj = new rect(rectWidth, rectHeight, color, i*rectWidth, sortingArea.canvas.height-rectHeight);
         rectObjs.push(rectObj);
     }
