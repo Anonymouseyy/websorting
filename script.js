@@ -297,7 +297,7 @@ async function ending(delay=10) {
 }
 
 
-// Sort inspirations from Geeks for Geeks
+// Sorting algorithms from Geeks for Geeks
 async function bubbleSort(delay) {
     var n = numlst.length
     var i, j;

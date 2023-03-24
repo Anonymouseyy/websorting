@@ -25,7 +25,8 @@ canvas {
     flex-grow: 1;
     display:flex;
 }
- 
+
+/* Alignment help from W3Schools https://www.w3schools.com/csS/css_align.asp */
 .right {
     margin-left: auto!important;
 }
