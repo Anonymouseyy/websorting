@@ -124,7 +124,7 @@ var sortingArea = {
 function start() {
     sortingArea.start();
     numlst = generateList(length);
-    rects = genRects(numlst);
+    rects = genRects(numlst, highlightedRects);
     updateRects(rects);
     if (mode == "dark") {
         var element = document.body;
@@ -140,7 +140,7 @@ function start() {
  
 function updateCanvas() {
     sortingArea.updateSize();
-    rects = genRects(numlst);
+    rects = genRects(numlst, highlightedRects);
     updateRects(rects);
     if (sorting) {
         let h = hours < 10 ? "0" + hours : hours;
@@ -152,14 +152,14 @@ function updateCanvas() {
 }
  
  
-function genRects(lst) {
+function genRects(lst, highlights) {
     var rectObjs = [];
     var rectWidth = sortingArea.canvas.width/lst.length;
     var color;
  
     for (var i = 0; i < lst.length; i++) {
-        if (highlightedRects.indices.includes(i)) {
-            color = highlightedRects.colors[highlightedRects.indices.indexOf(i)];
+        if (highlights.indices.includes(i)) {
+            color = highlights.colors[highlights.indices.indexOf(i)];
             if (color == "red" && mute == "no") {
                 var freq = (lst[i]*200)+100;
                 playSound("sine", freq, 1)
