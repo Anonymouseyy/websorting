@@ -561,4 +561,4 @@ async function quickSort(arr, low, high, delay) {
     }
 }
  
-start()
+start();
