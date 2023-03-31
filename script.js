@@ -167,7 +167,7 @@ function genRects(lst, highlights, mode) {
         } else if (mode == "dark") {
             color = "#e8e8e8";
         } else {
-            var color = "black";
+            color = "black";
         }
         
         var rectHeight = lst[i]*sortingArea.canvas.height;
