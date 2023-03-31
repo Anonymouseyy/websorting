@@ -124,7 +124,7 @@ var sortingArea = {
 function start() {
     sortingArea.start();
     numlst = generateList(length);
-    rects = genRects(numlst, highlightedRects);
+    rects = genRects(numlst, highlightedRects, mode);
     updateRects(rects);
     if (mode == "dark") {
         var element = document.body;
@@ -140,7 +140,7 @@ function start() {
  
 function updateCanvas() {
     sortingArea.updateSize();
-    rects = genRects(numlst, highlightedRects);
+    rects = genRects(numlst, highlightedRects, mode);
     updateRects(rects);
     if (sorting) {
         let h = hours < 10 ? "0" + hours : hours;
@@ -152,7 +152,7 @@ function updateCanvas() {
 }
  
  
-function genRects(lst, highlights) {
+function genRects(lst, highlights, mode) {
     var rectObjs = [];
     var rectWidth = sortingArea.canvas.width/lst.length;
     var color;
