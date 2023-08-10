@@ -153,7 +153,7 @@ function updateCanvas() {
 
 
 async function sound(pitch) {
-    let soundPlayer = new Audio("/static/sound.mp3");
+    let soundPlayer = new Audio("sound.mp3");
     soundPlayer.preservesPitch = false;
     soundPlayer.playbackRate = pitch;
     soundPlayer.play();
