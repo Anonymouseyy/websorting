@@ -150,6 +150,14 @@ function updateCanvas() {
         $("#stats").text(`Run time: ${h}:${m}:${s}:${ms} Comparisons: ${comparisons} Movements: ${movements}`);
     }
 }
+
+
+async function sound(pitch) {
+    let soundPlayer = new Audio("/static/sound.mp3");
+    soundPlayer.preservesPitch = false;
+    soundPlayer.playbackRate = pitch;
+    soundPlayer.play();
+}
  
  
 function genRects(lst, highlights, mode) {
@@ -161,8 +169,8 @@ function genRects(lst, highlights, mode) {
         if (highlights.indices.includes(i)) {
             color = highlights.colors[highlights.indices.indexOf(i)];
             if (color == "red" && mute == "no") {
-                var freq = (lst[i]*200)+100;
-                playSound("sine", freq, 1)
+                var freq = lst[i];
+                sound(freq);
             }
         } else if (mode == "dark") {
             color = "#e8e8e8";
