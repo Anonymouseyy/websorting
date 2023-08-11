@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="/static/websortinglogo.png" alt="WebSorting"/>
+  <img src="websortinglogo.png" alt="WebSorting"/>
 </p>
 
 # Websorting
